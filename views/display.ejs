@@ -14,6 +14,9 @@
     <tr><td>Created by:</td><td><%= restaurant['owner'] %></td></tr>
 
 </table>
+<br>
+<button onclick="window.location.href='/gmap?_id=<%= restaurant._id%>&lat=<%= restaurant['address'].lat%>&lon=<%= restaurant['address'].lon %>'" >Google map</button>
+
 <table>
     <tr><button onclick="window.location.href='/rate?_id=<%= restaurant._id %>'">Rate</button><button onclick="window.location.href='/change?_id=<%= restaurant._id %>'">Edit</button><button onclick="window.location.href='/delete?_id=<%= restaurant._id %>'">Delete</button><button onclick="window.location.href='/'">Go Back</button></tr>
 </table>

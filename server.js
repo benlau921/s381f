@@ -191,7 +191,7 @@ app.get('/change',function(req,res) {
             displayRestaurants(db,req.query._id,function(restaurant){
                 db.close();
                 if (restaurant['owner']!=req.session.username){
-                    res.send("You are not the owner!");
+                    res.send("You are not the owner! Edit not allowed!");
                 } else {
                        res.render('change',{name:req.session.username, restaurant: restaurant});
                 }
@@ -256,13 +256,25 @@ app.post('/rate',function(req,res) {
         MongoClient.connect(mongourl,function(err,db){
             assert.equal(null,err);
             displayRestaurants(db,req.query._id,function(restaurant){
-                if (restaurant['grades']) {
+                if (restaurant['grades'] != undefined) {
                     grades = restaurant['grades'];
+                    for (var i=0;i<grades.length;i++){
+                        if (grades[i]['user']==req.session.username){
+                            grades[i] = pushValue;
+                            break;
+                        } else {
+                            grades.push(pushValue);
+                        }
+                    }
+                } else {
+                    grades.push(pushValue);
                 }
-                grades.push(pushValue);
+
+
                 db.collection('restaurants').updateOne({_id: ObjectId(req.query._id)},{$set:{"grades": grades}},function(err,result) {
                     assert.equal(err,null);
                 });
+                res.redirect('/');
                 db.close();
             });
         });
@@ -272,6 +284,74 @@ app.post('/rate',function(req,res) {
 
 
 //end of rate
+
+//curl create
+
+app.post('/api/restaurant/create',function(req,res) {
+
+        var new_r = {};
+        new_r['name'] = req.body.name;
+        if (req.body.cuisine) new_r['cuisine'] = req.body.cuisine;
+        if (req.body.borough) new_r['borough'] = req.body.borough;
+        var address = {};
+        new_r['address'] = address;
+        if (req.body.street || req.body.building || req.body.zipcode || req.body.lon || req.body.lat){
+            address['street'] = req.body.street;
+            address['building'] = req.body.building;
+            address['zipcode'] = req.body.zipcode;
+            address['lon'] = req.body.lon;
+            address['lat'] = req.body.lat;
+            new_r['address'] = address;
+        }
+
+        if (req.body.grade){
+            var grades = [];
+            var item = {};
+            item['score'] = req.body.grade;
+            item['user'] = req.body.username;
+            grades.push(item);
+            new_r['grades'] = grades;
+        }
+        /*
+                console.log("contains photo");
+                var photo = req.files.photo;
+                new_r('photo') = photo;
+                photo.mv('./public/file.jpg');
+        */
+        new_r['owner'] = req.body.owner;
+        console.log(new_r);
+
+        MongoClient.connect(mongourl,function(err,db){
+            assert.equal(null,err);
+            createRestaurant(db,new_r,function(rests){
+                db.close();
+
+                res.status(200);
+                res.send(new_r);
+
+            });
+        });
+
+});
+
+
+
+
+//end of curl create
+
+
+
+//gmap
+app.get('/gmap',function(req,res) {
+    if (!req.session.authenticated) {
+        res.redirect('/login');
+    } else {
+        console.log("OK");
+        res.render('gmap',{lat:req.query.lat,lon:req.query.lon});
+    }
+});
+
+//end of gmap
 
 //delete one document
 app.get('/delete',function(req,res) {
@@ -316,6 +396,39 @@ app.get('/clear',function(req,res) {
 //end of remove all
 
 
+//api
+app.get('/api/restaurant/read/borough/:borough',function(req,res) {
+        var borough = {"borough":req.params.borough};
+        MongoClient.connect(mongourl,function(err,db){
+            assert.equal(null,err);
+            loadSomeRestaurants(db,borough,function(rests){
+                db.close();
+                res.status(200);
+                res.send(rests);
+            });
+        });
+});
+
+app.get('/api/restaurant/read/name/:name',function(req,res) {
+    if (!req.session.authenticated) {
+        res.redirect('/login');
+    } else {
+        var name = {"name":req.params.name};
+        MongoClient.connect(mongourl,function(err,db){
+            assert.equal(null,err);
+            loadSomeRestaurants(db,name,function(rests){
+                db.close();
+                res.status(200);
+                res.send(rests);
+            });
+        });
+    }
+});
+
+
+//end of api
+
+
 //functions
 
 
@@ -357,6 +470,25 @@ var loadRestaurants = function(db,callback){
     });
 };
 //end of load all restaurants
+
+//Load some restaurants
+var loadSomeRestaurants = function(db,filter,callback){
+    var rests=[];
+
+    var cursor = db.collection('restaurants').find(filter);
+
+    cursor.each(function(err,doc){
+        assert.equal(err,null);
+        if(doc!=null){
+            rests.push(doc);
+        } else {
+            callback(rests);
+        }
+    });
+};
+//end of some restaurants
+
+
 
 
 //Create a document
