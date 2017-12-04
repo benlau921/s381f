@@ -1,0 +1,24 @@
+<html>
+<head>
+    <title>rate</title>
+    <script>
+        function checkValue() {
+            x = document.getElementById("score").value;
+            if (isNaN(x) || x < 1 || x > 10){
+                alert("must between 1-10");
+                return false;
+            }
+            return true;
+        }
+    </script>
+</head>
+<body>
+<H1>Rate</H1>
+
+<form action="/rate?_id=<%= oid %>" method="post" onsubmit="return checkValue()">
+    Score(1-10): <input type="text" name="score" id="score"><br>
+    <input type="submit" value="Rate">
+</form>
+
+</body>
+</html>

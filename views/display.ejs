@@ -1,0 +1,21 @@
+<html>
+<head><title><%= restaurant['name'] %></title></head>
+<body>
+<H1><%= restaurant['name'] %></H1>
+
+<table>
+    <tr><td>Borough:</td><td><%= restaurant['borough'] %></td></tr>
+    <tr><td>Cuisine:</td><td><%= restaurant['cuisine'] %></td></tr>
+    <tr><td>Street:</td><td><%= restaurant['address'].street  %></td></tr>
+    <tr><td>Building:</td><td><%= restaurant['address'].building %></td></tr>
+    <tr><td>Zipcode:</td><td><%= restaurant['address'].zipcode %></td></tr>
+    <tr><td>GPS:</td><td>[<%= restaurant['address'].lon %>,<%= restaurant['address'].lat %>]</td></tr>
+    <tr><td>Rating:<br></td><td><ol><% if(restaurant['grades']!=null) for (var i =0; i<restaurant['grades'].length;i++){ %> <li><%= restaurant['grades'][i].score  %>(<%= restaurant['grades'][i].user%>)</li> <%}%></ol></td></tr>
+    <tr><td>Created by:</td><td><%= restaurant['owner'] %></td></tr>
+
+</table>
+<table>
+    <tr><button onclick="window.location.href='/rate?_id=<%= restaurant._id %>'">Rate</button><button onclick="window.location.href='/change?_id=<%= restaurant._id %>'">Edit</button><button onclick="window.location.href='/delete?_id=<%= restaurant._id %>'">Delete</button><button onclick="window.location.href='/'">Go Back</button></tr>
+</table>
+</body>
+</html>

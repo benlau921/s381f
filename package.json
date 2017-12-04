@@ -1,0 +1,18 @@
+{
+    "name": "miniproject",
+    "description": "NodeJS Session",
+    "author": "Ben Lau <s1140563@ouhk.edu.hk>",
+    "version": "0.0.1",
+    "dependencies": {
+        "express": "*",
+        "ejs": "*",
+        "body-parser": "*",
+        "cookie-session": "*",
+        "mongodb" : "*",
+		"express-fileupload" : "*"
+    },
+    "engine": "node >= 0.10.0",
+    "scripts": {
+        "start": "node server"
+    }
+}

@@ -1,0 +1,65 @@
+<html>
+<head><title>Create New Restaurant</title></head>
+<body>
+<H1>Create New Restaurant</H1>
+
+<!--
+<script>
+        function checkRate() {
+            var x, text;
+            x = document.getElementById("score").value;
+            if (isNaN(x) || x < 1 || x > 10){
+                text = "Score should be between 1 and 10";
+            }
+
+        }
+
+</script>
+-->
+
+<form action="/create" method="post">
+
+        <label>Name</label><br>
+        <input name="name" type="text" required=""><br>
+
+        <label>Borough</label><br>
+        <input name="borough" type="text"><br>
+
+        <label>Cuisine</label><br>
+        <input name="cuisine" type="text"><br>
+
+
+        <label>Street</label><br>
+        <input name="street" type="text"><br>
+
+
+        <label>Building</label><br>
+        <input name="building" type="text"><br>
+
+
+        <label>Zipcode</label><br>
+        <input name="zipcode" type="text"><br>
+
+
+        <label>GPS Coordinates (lon.)</label><br>
+        <input name="lon" type="text"><br>
+
+
+        <label>GPS Coordinates (lat.)</label><br>
+        <input name="lat" type="text"><br>
+
+        <!--
+        <label>Grade(from 1 to 10)</label><br>
+        <input name="grades" type="text" id="score"><br>
+        -->
+
+        <label>Photo</label><br>
+        <input name="photo" type="file"><br><br>
+
+
+        <input type="submit" value="Create"><br>
+
+</form>
+
+</body>
+</html>

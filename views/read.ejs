@@ -1,0 +1,19 @@
+<html>
+<head><title>Restaurants</title></head>
+<body>
+<H1>Restaurants</H1>
+<H2>User: <%= name %></H2>
+
+<form action="/new" method="get">
+    <input type="submit" value="Create New Restaurant">
+</form>
+
+<table>
+    <tr><td>Name:</td></tr><br>
+    <% for(var i = 0; i<rests.length; i++){ %>
+    <tr><td><a href=/display?_id=<%= rests[i]._id %>><%= rests[i].name %></a></td></tr>
+    <% } %>
+</table>
+
+</body>
+</html>

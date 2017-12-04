@@ -1,0 +1,21 @@
+<html>
+<head><title><%= new_r['name'] %></title></head>
+<body>
+<H1><%= new_r['name'] %></H1>
+
+<table>
+    <tr><td>Borough:</td><td><%= new_r['borough'] %></td></tr>
+    <tr><td>Cuisine:</td><td><%= new_r['cuisine'] %></td></tr>
+    <tr><td>Street:</td><td><%= new_r['address'].street  %></td></tr>
+    <tr><td>Building:</td><td><%= new_r['address'].building %></td></tr>
+    <tr><td>Zipcode:</td><td><%= new_r['address'].zipcode %></td></tr>
+    <tr><td>GPS:</td><td>[<%= new_r['address'].lon %>,<%= new_r['address'].lat %>]</td></tr>
+    <tr><td>Rating:</td><td><%= new_r['grades'] %></td></tr>
+    <tr><td>Created by:</td><td><%= new_r['owner'] %></td></tr>
+
+    </table>
+<table>
+    <tr><button value="Rate">Rate</button><button>Edit</button><button>Delete</button><button onclick="window.location.href='/'">Go Back</button></tr>
+</table>
+</body>
+</html>

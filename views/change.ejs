@@ -1,0 +1,51 @@
+<html>
+<head><title>Modify Restaurant <%= restaurant['name'] %></title></head>
+<body>
+<H1>Modify Restaurant <%= restaurant['name'] %></H1>
+
+<form action="/update?_id=<%= restaurant._id %>" method="post">
+
+    <label>Name</label><br>
+    <input name="name" type="text" required="" value="<%= restaurant['name'] %>"><br>
+
+    <label>Borough</label><br>
+    <input name="borough" type="text" value="<%= restaurant['borough'] %>"><br>
+
+    <label>Cuisine</label><br>
+    <input name="cuisine" type="text" value="<%= restaurant['cuisine'] %>"><br>
+
+
+    <label>Street</label><br>
+    <input name="street" type="text" value="<%= restaurant['address'].street %>"><br>
+
+
+    <label>Building</label><br>
+    <input name="building" type="text" value="<%= restaurant['address'].building %>" ><br>
+
+
+    <label>Zipcode</label><br>
+    <input name="zipcode" type="text" value="<%= restaurant['address'].zipcode %>"><br>
+
+
+    <label>GPS Coordinates (lon.)</label><br>
+    <input name="lon" type="text" value="<%= restaurant['address'].lon %>"><br>
+
+
+    <label>GPS Coordinates (lat.)</label><br>
+    <input name="lat" type="text" value="<%=  restaurant['address'].lat %>"><br>
+
+    <!--
+    <label>Grade(from 1 to 10)</label><br>
+    <input name="grades" type="text" id="score"><br>
+    -->
+
+    <label>Photo</label><br>
+    <input name="photo" type="file"><br><br>
+
+
+    <input type="submit" value="Change"><br>
+
+</form>
+
+</body>
+</html>
